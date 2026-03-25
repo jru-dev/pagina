@@ -7,11 +7,55 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 5px rgba(24, 95, 165, 0.2), 0 2px 8px rgba(0, 0, 0, 0.05); }
+      50% { box-shadow: 0 0 15px rgba(24, 95, 165, 0.4), 0 8px 20px rgba(24, 95, 165, 0.1); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f6f9;
+      background: linear-gradient(135deg, #f4f6f9 0%, #e8f1f8 100%);
       color: #1a1a2e;
       min-height: 100vh;
+      scroll-behavior: smooth;
     }
 
     .portfolio {
@@ -28,13 +72,14 @@
       display: flex;
       align-items: center;
       gap: 2rem;
+      animation: fadeInUp 0.8s ease-out;
     }
 
     .avatar {
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: #dbeafe;
+      background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -42,7 +87,15 @@
       font-weight: 600;
       color: #1d4ed8;
       flex-shrink: 0;
-      border: 1px solid #bfdbfe;
+      border: 2px solid #93c5fd;
+      animation: float 3s ease-in-out infinite, fadeInUp 0.8s ease-out;
+      box-shadow: 0 4px 15px rgba(29, 78, 216, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .avatar:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(29, 78, 216, 0.4);
     }
 
     .hero-text h1 {
@@ -50,12 +103,14 @@
       font-weight: 600;
       color: #0a192f;
       margin-bottom: 4px;
+      animation: slideInRight 0.8s ease-out;
     }
 
     .hero-text p {
       font-size: 15px;
       color: #64748b;
       margin-bottom: 10px;
+      animation: slideInRight 0.8s ease-out 0.1s both;
     }
 
     .status-badge {
@@ -68,6 +123,7 @@
       background: #dcfce7;
       color: #166534;
       border: 1px solid #bbf7d0;
+      animation: slideInRight 0.8s ease-out 0.2s both, glow 2s ease-in-out infinite 0.5s;
     }
 
     .status-dot {
@@ -75,6 +131,7 @@
       height: 7px;
       border-radius: 50%;
       background: #16a34a;
+      animation: pulse 2s ease-in-out infinite;
     }
 
     /* NAV */
@@ -83,6 +140,7 @@
       gap: 4px;
       margin-bottom: 2.5rem;
       border-bottom: 1px solid #e2e8f0;
+      animation: slideInRight 0.8s ease-out 0.2s both;
     }
 
     .nav-btn {
@@ -94,20 +152,28 @@
       cursor: pointer;
       border-bottom: 2px solid transparent;
       margin-bottom: -1px;
-      transition: color 0.15s;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       font-family: inherit;
+      position: relative;
+    }
+
+    .nav-btn:hover:not(.active) {
+      color: #0a192f;
+      transform: translateY(-2px);
     }
 
     .nav-btn.active {
       color: #0a192f;
       border-bottom-color: #185FA5;
       font-weight: 600;
+      box-shadow: 0 2px 0 #185FA5 inset;
     }
 
-    .nav-btn:hover:not(.active) { color: #0a192f; }
-
     /* SECTIONS */
-    .section { display: none; }
+    .section { 
+      display: none;
+      animation: fadeInUp 0.5s ease-out;
+    }
     .section.active { display: block; }
 
     /* BIO */
@@ -117,6 +183,14 @@
       border-radius: 12px;
       padding: 1.5rem;
       margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .bio-card:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 10px 30px rgba(24, 95, 165, 0.12);
+      transform: translateY(-5px);
     }
 
     .bio-card h2 {
@@ -146,13 +220,28 @@
     .info-value { color: #0f172a; font-weight: 600; }
 
     /* SKILLS */
-    .skills-grid { display: grid; gap: 1rem; }
+    .skills-grid { 
+      display: grid; 
+      gap: 1rem; 
+    }
 
     .skill-group {
       background: #fff;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
       padding: 1.25rem;
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .skill-group:nth-child(2) {
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+
+    .skill-group:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 10px 30px rgba(24, 95, 165, 0.12);
+      transform: translateY(-5px);
     }
 
     .skill-group-title {
@@ -180,7 +269,20 @@
 
     .skill-rows { display: flex; flex-direction: column; gap: 12px; }
 
-    .skill-row { display: flex; align-items: center; gap: 12px; }
+    .skill-row { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px;
+      animation: slideInRight 0.6s ease-out;
+    }
+
+    .skill-row:nth-child(2) {
+      animation: slideInRight 0.6s ease-out 0.05s both;
+    }
+
+    .skill-row:nth-child(3) {
+      animation: slideInRight 0.6s ease-out 0.1s both;
+    }
 
     .skill-name {
       font-size: 14px;
@@ -200,9 +302,10 @@
     .skill-bar {
       height: 100%;
       border-radius: 999px;
-      background: #185FA5;
+      background: linear-gradient(90deg, #185FA5, #0c447c);
       width: 0;
-      transition: width 1s cubic-bezier(.4,0,.2,1);
+      transition: width 1.2s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 0 10px rgba(24, 95, 165, 0.4);
     }
 
     .skill-pct {
@@ -213,7 +316,12 @@
     }
 
     /* CONTACT */
-    .contact-section { display: flex; flex-direction: column; gap: 12px; }
+    .contact-section { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 12px;
+      animation: fadeInUp 0.6s ease-out;
+    }
 
     .contact-card {
       background: #fff;
@@ -224,13 +332,23 @@
       align-items: center;
       gap: 1rem;
       cursor: pointer;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       text-decoration: none;
+      animation: slideInRight 0.6s ease-out;
+    }
+
+    .contact-card:nth-child(2) {
+      animation: slideInRight 0.6s ease-out 0.05s both;
+    }
+
+    .contact-card:nth-child(3) {
+      animation: slideInRight 0.6s ease-out 0.1s both;
     }
 
     .contact-card:hover {
       border-color: #93c5fd;
-      box-shadow: 0 2px 8px rgba(24,95,165,0.08);
+      box-shadow: 0 10px 30px rgba(24, 95, 165, 0.2);
+      transform: translateY(-5px) translateX(5px);
     }
 
     .contact-icon {
@@ -254,6 +372,13 @@
       border-radius: 12px;
       padding: 1.5rem;
       margin-top: 1.5rem;
+      animation: fadeInUp 0.6s ease-out 0.15s both;
+      transition: all 0.3s ease;
+    }
+
+    .msg-form:hover {
+      border-color: #93c5fd;
+      box-shadow: 0 10px 30px rgba(24, 95, 165, 0.12);
     }
 
     .msg-form h3 {
@@ -263,7 +388,10 @@
       color: #0f172a;
     }
 
-    .form-field { margin-bottom: 12px; }
+    .form-field { 
+      margin-bottom: 12px;
+      animation: fadeInUp 0.6s ease-out;
+    }
 
     .form-field label {
       display: block;
@@ -285,18 +413,25 @@
       font-family: inherit;
       resize: none;
       outline: none;
-      transition: border-color 0.15s;
+      transition: all 0.3s ease;
     }
 
     .form-field input:focus,
     .form-field textarea:focus {
       border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+      background: #fff;
+    }
+
+    .form-field input:hover,
+    .form-field textarea:hover {
+      border-color: #bfdbfe;
     }
 
     .form-field textarea { height: 100px; }
 
     .send-btn {
-      background: #185FA5;
+      background: linear-gradient(135deg, #185FA5, #0c447c);
       color: #fff;
       border: none;
       border-radius: 8px;
@@ -305,20 +440,32 @@
       cursor: pointer;
       font-family: inherit;
       font-weight: 500;
-      transition: background 0.15s;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 4px 15px rgba(24, 95, 165, 0.2);
     }
 
-    .send-btn:hover { background: #0c447c; }
+    .send-btn:hover { 
+      background: linear-gradient(135deg, #0c447c, #082d54);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(24, 95, 165, 0.4);
+    }
+
+    .send-btn:active {
+      transform: translateY(0);
+    }
 
     .toast {
       display: none;
-      background: #dcfce7;
+      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
       color: #166534;
-      border: 1px solid #bbf7d0;
-      padding: 10px 14px;
+      border: 1px solid #86efac;
+      padding: 12px 16px;
       border-radius: 8px;
       font-size: 13px;
       margin-top: 12px;
+      animation: slideInRight 0.4s ease-out, fadeInUp 0.4s ease-out;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+      font-weight: 500;
     }
 
     @media (max-width: 540px) {
@@ -496,12 +643,57 @@
 </div>
 
 <script>
+  // Enhance contact cards with ripple effect
+  document.querySelectorAll('.contact-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      
+      ripple.style.cssText = `
+        position: absolute;
+        width: ${size}px;
+        height: ${size}px;
+        border-radius: 50%;
+        background: rgba(29, 78, 216, 0.3);
+        left: ${x}px;
+        top: ${y}px;
+        pointer-events: none;
+        animation: ripple 0.6s ease-out;
+      `;
+      
+      this.style.position = 'relative';
+      this.style.overflow = 'hidden';
+      this.appendChild(ripple);
+      
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+
+  // Add keyframe animation for ripple
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
   function showSection(id, btn) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
     if (id === 'skills') animateBars();
+    
+    // Add button click feedback
+    btn.style.transform = 'scale(0.95)';
+    setTimeout(() => { btn.style.transform = 'scale(1)'; }, 100);
   }
 
   function animateBars() {
@@ -516,17 +708,53 @@
     const name = document.getElementById('msg-name').value.trim();
     const email = document.getElementById('msg-email').value.trim();
     const body = document.getElementById('msg-body').value.trim();
+    
     if (!name || !email || !body) {
       alert('Por favor completa todos los campos.');
       return;
     }
+    
     const toast = document.getElementById('toast');
+    const sendBtn = event.target;
+    
+    // Add button animation
+    sendBtn.style.transform = 'scale(0.95)';
+    setTimeout(() => { sendBtn.style.transform = 'scale(1)'; }, 100);
+    
     toast.style.display = 'block';
     document.getElementById('msg-name').value = '';
     document.getElementById('msg-email').value = '';
     document.getElementById('msg-body').value = '';
+    
     setTimeout(() => toast.style.display = 'none', 3000);
   }
+
+  // Add smooth scroll behavior for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Add hover effect to nav buttons with transition
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+  });
+
+  // Animate skill icons on hover
+  document.querySelectorAll('.skill-icon').forEach(icon => {
+    icon.style.transition = 'all 0.3s ease';
+    icon.parentElement.parentElement.addEventListener('mouseenter', function() {
+      icon.style.transform = 'scale(1.15) rotate(5deg)';
+    });
+    icon.parentElement.parentElement.addEventListener('mouseleave', function() {
+      icon.style.transform = 'scale(1) rotate(0deg)';
+    });
+  });
 </script>
 </body>
 </html>
