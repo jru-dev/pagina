@@ -80,3 +80,13 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
+pool.query(`
+  CREATE TABLE IF NOT EXISTS usuarios (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    email VARCHAR(100),
+    mensaje TEXT
+  );
+`).then(() => {
+  console.log("Tabla lista 🚀");
+});
